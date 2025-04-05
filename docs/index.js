@@ -1,9 +1,9 @@
 function goToDownloads() {
-    location.href = "/ZenBrowser/downloads"
+    location.href = "/ZenBrowser/downloads/"
 }
 
 function goToContact() {
-    location.href = "/ZenBrowser/contact"
+    location.href = "/ZenBrowser/contact/"
 }
 
 function goToRepo() {
