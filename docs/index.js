@@ -1,9 +1,9 @@
 function goToDownloads() {
-    location.href = "/ZenBrowser/downloads/"
+    location.href = "https://partehdev.github.io/ZenBrowser/downloads/"
 }
 
 function goToContact() {
-    location.href = "/ZenBrowser/contact/"
+    location.href = "https://partehdev.github.io/ZenBrowser/contact/"
 }
 
 function goToRepo() {
