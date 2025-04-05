@@ -41,7 +41,7 @@ class AboutDialog(QDialog):
         layout.addWidget(title)
 
         logo = QLabel()
-        logo.setPixmap(QPixmap(os.path.join("images", "ma-icon-128.png")))
+        logo.setPixmap(QPixmap(os.path.join("images", "zen_128.png")))
         layout.addWidget(logo)
 
         layout.addWidget(QLabel("Version 00.00.001.000000"))
@@ -194,7 +194,7 @@ class MainWindow(QMainWindow):
         self.show()
 
         self.setWindowTitle("ZenBrowser")
-        self.setWindowIcon(QIcon(os.path.join("images", "ma-icon-64.png")))
+        self.setWindowIcon(QIcon(os.path.join("images", "zen_64.png")))
 
     def add_new_tab(self, qurl=None, label="Blank"):
         if qurl is None:
