@@ -33,7 +33,7 @@ class AboutDialog(QDialog):
 
         layout = QVBoxLayout()
 
-        title = QLabel("ZenBrowser Alpha - Nightly")
+        title = QLabel("ZenBrowser Alpha")
         font = title.font()
         font.setPointSize(20)
         title.setFont(font)
