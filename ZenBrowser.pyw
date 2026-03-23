@@ -1,6 +1,8 @@
 import os
 import sys
 
+from urllib.parse import urlparse, quote_plus
+
 from PyQt5.QtCore import QSize, Qt, QUrl
 from PyQt5.QtGui import QIcon, QKeySequence, QPixmap
 from PyQt5.QtPrintSupport import QPrintPreviewDialog
@@ -21,6 +23,8 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
 )
 
+zenb_version = "0.0.2.0-ALPHA"
+last_updated_year = "2026"
 
 class AboutDialog(QDialog):
     def __init__(self):
@@ -44,8 +48,8 @@ class AboutDialog(QDialog):
         logo.setPixmap(QPixmap(os.path.join("images", "zen_128.png")))
         layout.addWidget(logo)
 
-        layout.addWidget(QLabel("Version 00.00.001.000000"))
-        layout.addWidget(QLabel("Copyright 2025 PartehDev"))
+        layout.addWidget(QLabel(f"Version {zenb_version}"))
+        layout.addWidget(QLabel(f"Copyright {last_updated_year} PartehDev"))
 
         for i in range(0, layout.count()):
             layout.itemAt(i).setAlignment(Qt.AlignmentFlag.AlignHCenter)
@@ -198,7 +202,7 @@ class MainWindow(QMainWindow):
 
     def add_new_tab(self, qurl=None, label="Blank"):
         if qurl is None:
-            qurl = QUrl("")
+            qurl = QUrl("https://www.google.com")
 
         browser = QWebEngineView()
         browser.setUrl(qurl)
@@ -246,10 +250,10 @@ class MainWindow(QMainWindow):
             return
 
         title = self.tabs.currentWidget().page().title()
-        self.setWindowTitle("%s - ZenBrowser" % title)
+        self.setWindowTitle(f"{title} - ZenBrowser v. {zenb_version}")
 
     def navigate_zen(self):
-        self.tabs.currentWidget().setUrl(QUrl("https://PartehDev.github.io/ZenBrowser/"))
+        self.tabs.currentWidget().setUrl(QUrl("https://zenbrowser.github.io"))
 
     def about(self):
         dlg = AboutDialog()
@@ -292,10 +296,11 @@ class MainWindow(QMainWindow):
         self.tabs.currentWidget().setUrl(QUrl("http://www.google.com"))
 
     def navigate_to_url(self):
-        q = QUrl(self.urlbar.text())
+        q = QUrl(self.mod_link(self.urlbar.text()))
         if q.scheme() == "":
             q.setScheme("http")
-
+        
+        #print(q.)
         self.tabs.currentWidget().setUrl(q)
 
     def update_urlbar(self, q, browser=None):
@@ -314,12 +319,34 @@ class MainWindow(QMainWindow):
         self.urlbar.setText(q.toString())
         self.urlbar.setCursorPosition(0)
 
+    def mod_link(self, link: str) -> str:
+        l = link
+
+        # Replace all backslashes with a forward slash if the link begins with _:/ because it notates a Windows path link
+        if l[1:].startswith(":\\"):
+            l = l.replace("\\", "/")
+
+        # Check if the link is valid. If it isn't, then we just google search it.
+
+        if not self.is_valid_url(l):
+            return f"https://google.com/search?q={quote_plus(l)}"
+
+        return l
+
+    def is_valid_url(self, url: str):
+        try:
+            result = urlparse(url)
+            return all([result.scheme, result.netloc])
+        except ValueError:
+            return False
+
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setApplicationName("ZenBrowser")
     app.setOrganizationName("ZenBrowser")
-    app.setOrganizationDomain("PartehDev.github.io/ZenBrowser/")
+    app.setOrganizationDomain("https://zenbrowser.github.io")
 
     window = MainWindow()
 
